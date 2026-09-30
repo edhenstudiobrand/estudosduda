@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Banco de Estudos Gratuitos: Growth com Dados</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Public+Sans:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#1B2A41; --paper:#F5F7F8; --panel:#FFFFFF; --muted:#5B6770;
+  --line:#D9E0E4; --teal:#0E7C86; --teal-soft:#E3F2F3; --amber:#C98A0B;
+}
+@media (prefers-color-scheme: dark){
+  :root{ --ink:#E6ECF0; --paper:#121A24; --panel:#1A2431; --muted:#9AA7B1;
+    --line:#2C3A4A; --teal:#4FC1C9; --teal-soft:#16333A; --amber:#E8B84A; }
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);
+  font:400 17px/1.6 "Public Sans",system-ui,-apple-system,sans-serif}
+main{max-width:860px;margin:0 auto;padding:48px 20px 80px}
+h1,h2,h3{font-family:"Bricolage Grotesque","Public Sans",sans-serif;line-height:1.15;margin:0}
+h1{font-size:clamp(2rem,5vw,3.1rem);font-weight:700;letter-spacing:-.02em}
+h2{font-size:1.55rem;font-weight:700;margin:56px 0 8px}
+h3{font-size:1.05rem;font-weight:600;margin:24px 0 8px}
+p{margin:0 0 14px;max-width:70ch}
+.lead{font-size:1.1rem;color:var(--muted);margin-top:14px}
+a{color:var(--teal);text-underline-offset:3px}
+a:focus-visible,input:focus-visible{outline:3px solid var(--teal);outline-offset:2px}
+
+/* trilha: o elemento marcante */
+.trail{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin:40px 0 8px;position:relative}
+.trail::before{content:"";position:absolute;top:21px;left:12%;right:12%;height:3px;background:var(--line)}
+.stop{position:relative;text-align:center;text-decoration:none;color:var(--ink);padding:0 6px}
+.dot{width:44px;height:44px;border-radius:50%;margin:0 auto 10px;display:grid;place-items:center;
+  font-family:"Bricolage Grotesque",sans-serif;font-weight:700;background:var(--panel);
+  border:3px solid var(--line);position:relative;transition:background .3s,border-color .3s}
+.stop.done .dot{background:var(--teal);border-color:var(--teal);color:var(--paper)}
+.stop small{display:block;color:var(--muted);font-size:.8rem}
+.stop strong{font-size:.95rem;display:block}
+.meter{font-size:.8rem;color:var(--teal);font-weight:600}
+
+.rules{background:var(--teal-soft);border-radius:14px;padding:20px 24px;margin-top:28px}
+.rules ul{margin:0;padding-left:20px}
+.rules li{margin:6px 0}
+
+.table-wrap{overflow-x:auto;margin:16px 0}
+table{border-collapse:collapse;width:100%;min-width:560px;font-size:.95rem;background:var(--panel)}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-weight:600;color:var(--muted);font-size:.85rem}
+tr:last-child td{border-bottom:none}
+.tag{color:var(--muted);font-size:.85rem;white-space:nowrap}
+.own{color:var(--muted);font-size:.8rem}
+
+.tasks{list-style:none;padding:0;margin:8px 0 0}
+.tasks li{margin:8px 0}
+.tasks label{display:flex;gap:12px;align-items:flex-start;cursor:pointer;
+  background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+.tasks input{width:20px;height:20px;accent-color:var(--teal);margin-top:3px;flex:none}
+.tasks input:checked + span{color:var(--muted);text-decoration:line-through}
+
+.verse{border-left:4px solid var(--amber);padding:2px 0 2px 16px;margin:18px 0}
+.verse p{margin:0 0 4px}
+.verse cite{font-style:normal;color:var(--muted);font-size:.9rem}
+
+footer{margin-top:64px;color:var(--muted);font-size:.85rem}
+button.reset{font:inherit;background:none;border:1px solid var(--line);color:var(--muted);
+  border-radius:8px;padding:6px 12px;cursor:pointer}
+
+@media (max-width:600px){
+  .trail{grid-template-columns:repeat(2,1fr);row-gap:24px}
+  .trail::before{display:none}
+}
+@media (prefers-reduced-motion:reduce){ .dot{transition:none} }
+</style>
+</head>
+<body>
+<main>
+<header>
+  <h1>Banco de estudos gratuitos: growth com dados</h1>
+  <p class="lead">Um plano de 6 meses para aprender growth do jeito certo, aplicando em clientes reais enquanto estuda. Marque os entregáveis: seu progresso fica salvo neste navegador.</p>
+</header>
+
+<nav class="trail" aria-label="Fases do plano">
+  <a class="stop" href="#fase1" data-phase="1"><div class="dot">1</div><strong>Fundamentos</strong><small>Semanas 1–4</small><span class="meter"></span></a>
+  <a class="stop" href="#fase2" data-phase="2"><div class="dot">2</div><strong>Dados</strong><small>Semanas 5–12</small><span class="meter"></span></a>
+  <a class="stop" href="#fase3" data-phase="3"><div class="dot">3</div><strong>Aquisição</strong><small>Semanas 13–18</small><span class="meter"></span></a>
+  <a class="stop" href="#fase4" data-phase="4"><div class="dot">4</div><strong>Retenção e testes</strong><small>Semanas 19–24</small><span class="meter"></span></a>
+</nav>
+
+<section class="rules">
+  <h3 style="margin-top:0">Como usar este banco</h3>
+  <p>Estude cerca de 6 a 8 horas por semana, sempre aplicando em um cliente real. A faculdade te deu o vocabulário; aqui o foco é o que ela costuma pular: dados, experimentação e retenção.</p>
+  <ul>
+    <li><strong>Regra 70/30:</strong> no máximo 30% do tempo em curso, pelo menos 70% aplicando.</li>
+    <li><strong>Uma fase de cada vez:</strong> só avance quando conseguir fazer sozinho os entregáveis da fase anterior.</li>
+    <li><strong>Tudo vira evidência:</strong> cada módulo deve gerar um artefato para o seu portfólio.</li>
+    <li><strong>Inglês faz parte do estudo:</strong> o melhor material gratuito de growth está em inglês. Use legendas no começo, mas não fuja dele.</li>
+  </ul>
+  <p class="own" style="margin:10px 0 0">Itens marcados como "indicação própria" são recomendações minhas que não verifiquei na pesquisa; confira o link oficial antes de começar.</p>
+</section>
+
+<section id="fase1">
+  <h2>Fase 1: fundamentos de growth</h2>
+  <p>Entender growth como sistema (aquisição, ativação, retenção, receita, indicação) e experimentação, não como truque.</p>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Recurso</th><th>Idioma</th><th>O que você tira dele</th></tr></thead>
+    <tbody>
+      <tr><td><a href="https://www.conversion.com.br/academy/curso/growth-marketing" target="_blank" rel="noopener">Growth Marketing Essencial – Conversion Academy</a></td><td class="tag">PT</td><td>Funis, métricas e experimentação; certificado grátis</td></tr>
+      <tr><td><a href="https://www.santanderx.com/en/courses/growth-marketing.html" target="_blank" rel="noopener">Growth marketing strategies – Santander Open Academy + ISDI</a></td><td class="tag">EN/ES</td><td>Crescimento para pequenas e médias empresas; aberto até 31/12/2026</td></tr>
+      <tr><td>Mastering Growth – Velocity Growth (<a href="https://www.growthmentor.com/blog/growth-marketing-training-courses" target="_blank" rel="noopener">indicação GrowthMentor</a>)</td><td class="tag">EN</td><td>Modelagem de crescimento, aquisição, ativação, retenção</td></tr>
+      <tr><td><a href="https://amplitude.com/blog/introducing-north-star-playbook" target="_blank" rel="noopener">North Star Playbook – Amplitude</a></td><td class="tag">EN</td><td>Como escolher a métrica que representa o valor entregue ao cliente</td></tr>
+      <tr><td><a href="https://www.youtube.com/watch?v=uRkZ8foazHU" target="_blank" rel="noopener">Sean Ellis: The Science of Growth (vídeo)</a></td><td class="tag">EN</td><td>O processo de teste rápido e o conceito de product-market fit</td></tr>
+    </tbody>
+  </table></div>
+  <h3>Entregáveis</h3>
+  <ul class="tasks" data-phase="1">
+    <li><label><input type="checkbox" data-id="f1a"><span>Mapear o funil AARRR de um cliente real, com números atuais em cada etapa</span></label></li>
+    <li><label><input type="checkbox" data-id="f1b"><span>Propor uma North Star Metric e 3 métricas de input para esse cliente</span></label></li>
+    <li><label><input type="checkbox" data-id="f1c"><span>Escrever 5 hipóteses no formato "Se fizermos X, esperamos Y, porque Z"</span></label></li>
+  </ul>
+</section>
+
+<section id="fase2">
+  <h2>Fase 2: dados</h2>
+  <p>A fase mais importante e a mais longa: é onde você se separa de quem só faz estratégia. Siga a ordem: planilha, estatística, GA4, BI e, por último, SQL.</p>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Ordem</th><th>Recurso</th><th>Idioma</th><th>O que você tira dele</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>Excel / Google Sheets – Escola Virtual Fundação Bradesco <span class="own">(indicação própria)</span></td><td class="tag">PT</td><td>Tabelas dinâmicas, PROCV, gráficos; base de tudo</td></tr>
+      <tr><td>2</td><td>Estatística e probabilidade – Khan Academy em português <span class="own">(indicação própria)</span></td><td class="tag">PT</td><td>Média, variância, amostragem, significância; essencial para testes A/B</td></tr>
+      <tr><td>3</td><td><a href="https://skillscouter.com/google-analytics-courses/" target="_blank" rel="noopener">Certificação Google Analytics (GA4) – Skillshop</a></td><td class="tag">PT/EN</td><td>Modelo de eventos, conversões, relatórios, públicos; grátis e oficial</td></tr>
+      <tr><td>4</td><td><a href="https://skillscouter.com/google-analytics-courses/" target="_blank" rel="noopener">GA4 e Tag Manager – Analytics Mania</a></td><td class="tag">EN</td><td>Rastreamento de eventos na prática, depuração, Looker Studio</td></tr>
+      <tr><td>5</td><td><a href="https://casado.dev/curso-gratuito-power-bi-analise-de-dados-bradesco" target="_blank" rel="noopener">Trilha Power BI – Fundação Bradesco</a></td><td class="tag">PT</td><td>Dashboards para cliente; certificado grátis</td></tr>
+      <tr><td>6</td><td><a href="https://www.datascienceacademy.com.br/course/microsoft-power-bi-para-business-intelligence-e-data-science" target="_blank" rel="noopener">Power BI para BI e Data Science – DSA</a></td><td class="tag">PT</td><td>72h, certificado grátis; aprofunda o item anterior</td></tr>
+      <tr><td>7</td><td>Intro to SQL – Kaggle Learn <span class="own">(indicação própria)</span></td><td class="tag">EN</td><td>Consultar bases de dados sem depender de ninguém</td></tr>
+    </tbody>
+  </table></div>
+  <h3>Entregáveis</h3>
+  <ul class="tasks" data-phase="2">
+    <li><label><input type="checkbox" data-id="f2a"><span>Tirar a certificação GA4</span></label></li>
+    <li><label><input type="checkbox" data-id="f2b"><span>Construir um dashboard (Looker Studio ou Power BI) com o funil do cliente da Fase 1</span></label></li>
+    <li><label><input type="checkbox" data-id="f2c"><span>Fazer uma análise de coorte em planilha: de cada mês de clientes novos, quantos continuam comprando</span></label></li>
+  </ul>
+</section>
+
+<section id="fase3">
+  <h2>Fase 3: canais de aquisição</h2>
+  <p>Não tente dominar todos os canais. Estude os fundamentos de cada um e aprofunde só os 1 ou 2 que mais servem aos seus clientes.</p>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Canal</th><th>Recurso</th><th>Idioma</th><th>Destaque</th></tr></thead>
+    <tbody>
+      <tr><td>SEO</td><td><a href="https://ahrefs.com/academy/seo-training-course" target="_blank" rel="noopener">SEO Course for Beginners – Ahrefs Academy</a></td><td class="tag">EN</td><td>14 aulas, 2h, sem cadastro</td></tr>
+      <tr><td>Busca com IA</td><td><a href="https://ahrefs.com/es/academy/digital-marketing-course" target="_blank" rel="noopener">Curso de AEO – Ahrefs Academy</a></td><td class="tag">ES</td><td>Como marcas passam a ser recomendadas por IAs</td></tr>
+      <tr><td>Google Ads</td><td><a href="https://alejandrorioja.com/everything-you-need-to-know-about-google-certifications/" target="_blank" rel="noopener">Certificações Google Ads – Skillshop</a></td><td class="tag">PT/EN</td><td>Grátis; comece por Pesquisa</td></tr>
+      <tr><td>Meta Ads</td><td>Meta Blueprint <span class="own">(indicação própria)</span></td><td class="tag">PT</td><td>Campanhas, públicos, pixel e mensuração</td></tr>
+      <tr><td>Conteúdo</td><td><a href="https://gestaoderedessociais.com.br/marketing-digital-na-pratica-e-sem-enrolacao-168/" target="_blank" rel="noopener">Marketing de Conteúdo e Inbound – Rock University</a></td><td class="tag">PT</td><td>3,5h + 5h, com certificado</td></tr>
+      <tr><td>E-mail e CRM</td><td>HubSpot Academy – e-mail marketing <span class="own">(indicação própria)</span></td><td class="tag">PT/EN</td><td>Segmentação, automação e nutrição de leads</td></tr>
+    </tbody>
+  </table></div>
+  <h3>Entregáveis</h3>
+  <ul class="tasks" data-phase="3">
+    <li><label><input type="checkbox" data-id="f3a"><span>Calcular o CAC (custo de aquisição) por canal de um cliente</span></label></li>
+    <li><label><input type="checkbox" data-id="f3b"><span>Rodar uma campanha pequena, com orçamento definido pelo cliente, e reportar resultado versus meta</span></label></li>
+    <li><label><input type="checkbox" data-id="f3c"><span>Fazer uma pesquisa de palavras-chave e priorizar 10 termos</span></label></li>
+  </ul>
+</section>
+
+<section id="fase4">
+  <h2>Fase 4: ativação, retenção, CRO e testes A/B</h2>
+  <p>É aqui que growth de verdade acontece: trazer cliente é caro, mantê-lo é o que faz o negócio crescer. A maioria das agências para na aquisição, e isso é uma oportunidade para você.</p>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Recurso</th><th>Idioma</th><th>O que você tira dele</th></tr></thead>
+    <tbody>
+      <tr><td><a href="https://www.udacity.com/courses/ud257" target="_blank" rel="noopener">A/B Testing – Google via Udacity</a></td><td class="tag">EN</td><td>Grátis, com engenheiros do Google: métricas, poder estatístico, análise</td></tr>
+      <tr><td><a href="https://www.universidadviu.com/int/cursos-gratuitos/empresa/curso-gratuito-growth-marketing" target="_blank" rel="noopener">Otimização web (CRO) – VIU</a></td><td class="tag">ES</td><td>Taxa de conversão, funis, metodologia CRO</td></tr>
+      <tr><td><a href="https://www.youtube.com/watch?v=ch7aps2h8zQ" target="_blank" rel="noopener">Brian Balfour: retenção (vídeo)</a></td><td class="tag">EN</td><td>Por que retenção vem antes de escalar aquisição</td></tr>
+      <tr><td>Calculadora de amostra – Evan Miller <span class="own">(indicação própria)</span></td><td class="tag">EN</td><td>Saber quantos visitantes um teste precisa antes de rodar</td></tr>
+    </tbody>
+  </table></div>
+  <h3>Entregáveis</h3>
+  <ul class="tasks" data-phase="4">
+    <li><label><input type="checkbox" data-id="f4a"><span>Desenhar um teste A/B completo: hipótese, métrica, tamanho de amostra, duração</span></label></li>
+    <li><label><input type="checkbox" data-id="f4b"><span>Rodar o teste e escrever um relatório de 1 página com a decisão, mesmo que o resultado seja "não houve diferença"</span></label></li>
+    <li><label><input type="checkbox" data-id="f4c"><span>Propor uma ação de retenção para o cliente e medir antes e depois</span></label></li>
+  </ul>
+</section>
+
+<section>
+  <h2>Leitura contínua</h2>
+  <p>Reserve 1 hora por semana para isto, em qualquer fase. Para cada conteúdo, anote uma ideia que você pode testar em um cliente.</p>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Fonte</th><th>Formato</th><th>Por que acompanhar</th></tr></thead>
+    <tbody>
+      <tr><td>Lenny's Podcast e newsletter <span class="own">(indicação própria)</span>; ex.: <a href="https://www.youtube.com/watch?v=cX4cL6B-_aU" target="_blank" rel="noopener">Brian Balfour sobre ChatGPT como canal</a></td><td class="tag">Podcast, EN</td><td>Entrevistas com líderes de growth</td></tr>
+      <tr><td>Ensaios de Brian Balfour, série "Four Fits" <span class="own">(indicação própria)</span></td><td class="tag">Texto, EN</td><td>Como mercado, produto, canal e receita se encaixam</td></tr>
+      <tr><td>Blog de Casey Winters (<a href="https://www.appcues.com/blog/growth-hacking-books-conferences-courses-resources" target="_blank" rel="noopener">referência</a>)</td><td class="tag">Texto, EN</td><td>Growth prático e sem hype</td></tr>
+      <tr><td>Ensaios de Andrew Chen <span class="own">(indicação própria)</span></td><td class="tag">Texto, EN</td><td>Efeitos de rede e loops de crescimento</td></tr>
+      <tr><td>Blog da Conversion <span class="own">(indicação própria)</span></td><td class="tag">Texto, PT</td><td>SEO e growth no mercado brasileiro</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section>
+  <h2>Plano de prática</h2>
+  <p>Escolha um cliente-laboratório: alguém real, com dados reais, que aceite testes pequenos. Um bom laboratório tem pelo menos algumas centenas de visitas ou vendas por mês; sem volume, não há o que medir.</p>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Dia</th><th>Atividade</th><th>Tempo</th></tr></thead>
+    <tbody>
+      <tr><td>Segunda</td><td>Estudo da fase atual</td><td>2h</td></tr>
+      <tr><td>Terça</td><td>Aplicar no cliente-laboratório</td><td>2h</td></tr>
+      <tr><td>Quinta</td><td>Olhar os dados e atualizar o dashboard</td><td>1h</td></tr>
+      <tr><td>Sexta</td><td>Leitura contínua + 1 ideia de teste</td><td>1h</td></tr>
+      <tr><td>Sábado</td><td>Registrar o aprendizado no portfólio</td><td>1h</td></tr>
+    </tbody>
+  </table></div>
+  <p>Cada experimento vira uma página curta no portfólio: contexto, hipótese, o que foi feito, número antes e depois, aprendizado. Em 6 meses, 5 a 10 páginas assim valem mais do que qualquer certificado.</p>
+  <h3>Pontos cegos para vigiar</h3>
+  <p><strong>Growth não salva produto ruim.</strong> Se o cliente não entrega valor, crescer só acelera a perda de clientes. Às vezes a recomendação certa é consertar isso antes de investir em anúncio.</p>
+  <p><strong>Teste com pouco volume engana.</strong> Com poucas visitas, a "vitória" pode ser só acaso. Calcule a amostra antes de celebrar.</p>
+  <p><strong>Métrica de vaidade é tentadora.</strong> Seguidores e cliques agradam na reunião; o que importa é receita, retenção e margem.</p>
+</section>
+
+<section>
+  <h2>Crescer da forma certa</h2>
+  <p>"Da forma certa" tem dois sentidos: tecnicamente correto (dados confiáveis, testes válidos) e moralmente correto (crescimento que serve as pessoas).</p>
+  <div class="verse"><p>"Balança enganosa é abominação para o Senhor, mas o peso justo é o seu prazer."</p><cite>Provérbios 11:1</cite></div>
+  <p><strong>Honestidade nos números.</strong> Nunca maquie relatório. Um teste que falhou, reportado com honestidade, constrói mais confiança do que um sucesso inflado.</p>
+  <p><strong>Servir, não manipular.</strong> Evite urgência falsa, escassez inventada, cancelamento difícil e letras miúdas. Faça aos clientes dos seus clientes o que gostaria que fizessem a você (Mateus 7:12).</p>
+  <p><strong>Fidelidade no pouco.</strong> Quem é fiel no pouco também é fiel no muito (Lucas 16:10). Trate o orçamento pequeno com o mesmo cuidado de uma conta grande.</p>
+  <p><strong>Diligência com descanso.</strong> A mão dos diligentes enriquece (Provérbios 10:4), mas o descanso também é mandamento (Êxodo 20:8-10). Um plano só funciona se for sustentável.</p>
+</section>
+
+<footer>
+  <p>Atualizado em 29/09/2026. Os cursos gratuitos mudam de disponibilidade com frequência; confira cada link antes de se inscrever.</p>
+  <button class="reset" type="button" id="reset">Limpar progresso</button>
+</footer>
+</main>
+
+<script>
+(function(){
+  var KEY = "growth-estudos-progresso";
+  var state = {};
+  try { state = JSON.parse(localStorage.getItem(KEY)) || {}; } catch(e){ state = {}; }
+  var boxes = document.querySelectorAll(".tasks input");
+
+  function save(){ try { localStorage.setItem(KEY, JSON.stringify(state)); } catch(e){} }
+  function update(){
+    document.querySelectorAll(".stop").forEach(function(stop){
+      var p = stop.getAttribute("data-phase");
+      var list = document.querySelectorAll('.tasks[data-phase="'+p+'"] input');
+      var done = 0; list.forEach(function(b){ if(b.checked) done++; });
+      stop.querySelector(".meter").textContent = done + " de " + list.length;
+      stop.classList.toggle("done", done === list.length);
+    });
+  }
+  boxes.forEach(function(b){
+    b.checked = !!state[b.dataset.id];
+    b.addEventListener("change", function(){ state[b.dataset.id] = b.checked; save(); update(); });
+  });
+  document.getElementById("reset").addEventListener("click", function(){
+    state = {}; save(); boxes.forEach(function(b){ b.checked = false; }); update();
+  });
+  update();
+})();
+</script>
+</body>
+</html>
